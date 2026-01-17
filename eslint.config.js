@@ -1,15 +1,15 @@
-import js from '@eslint/js';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-import reactHooks from 'eslint-plugin-react-hooks';
-import prettier from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const tseslint = require('@typescript-eslint/eslint-plugin');
+const tsparser = require('@typescript-eslint/parser');
+const reactHooks = require('eslint-plugin-react-hooks');
+const prettier = require('eslint-plugin-prettier');
+const prettierConfig = require('eslint-config-prettier');
 
-export default [
+module.exports = [
 	js.configs.recommended,
 	prettierConfig,
 	{
-		files: ['**/*.{js,jsx,ts,tsx}'],
+		files: ['**/*.{ts,tsx}'],
 		languageOptions: {
 			parser: tsparser,
 			parserOptions: {
@@ -39,17 +39,12 @@ export default [
 			'prettier': prettier,
 		},
 		rules: {
-			// Prettier
 			'prettier/prettier': 'error',
-
-			// Code Quality
 			'no-console': 'warn',
 			'no-debugger': 'error',
 			'no-alert': 'error',
 			'no-eval': 'error',
 			'no-implied-eval': 'error',
-
-			// Variables
 			'no-unused-vars': 'off',
 			'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 			'no-undef': 'off',
@@ -57,30 +52,18 @@ export default [
 			'@typescript-eslint/no-redeclare': 'error',
 			'no-shadow': 'off',
 			'@typescript-eslint/no-shadow': 'error',
-
-			// Functions
 			'prefer-const': 'error',
 			'no-var': 'error',
 			'prefer-arrow-callback': 'error',
-
-			// Objects/Arrays
 			'object-shorthand': 'error',
 			'prefer-template': 'error',
-
-			// TypeScript specific
 			'@typescript-eslint/no-explicit-any': 'warn',
 			'@typescript-eslint/no-non-null-assertion': 'warn',
-
-			// React/JSX
 			'react-hooks/rules-of-hooks': 'error',
 			'react-hooks/exhaustive-deps': 'warn',
-
-			// Code Style
 			'eqeqeq': ['error', 'always'],
 			'curly': ['error', 'all'],
 			'semi': ['error', 'always'],
-
-			// Error Prevention
 			'no-empty': 'error',
 			'no-unreachable': 'error',
 			'no-duplicate-case': 'error',
@@ -89,6 +72,6 @@ export default [
 		},
 	},
 	{
-		ignores: ['.next/**', 'dist/**', 'node_modules/**', '.prettierrc.js'],
+		ignores: ['.next/**', 'dist/**', 'node_modules/**', 'envs.js', 'commitlint.config.js', '.prettierrc.js', 'eslint.config.js'],
 	},
 ];
