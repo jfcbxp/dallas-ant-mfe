@@ -1,28 +1,27 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+	output: 'standalone',
 
-  distDir: "dist",
+	distDir: 'dist',
 
-  reactStrictMode: true,
+	reactStrictMode: true,
 
-  cacheMaxMemorySize: 0,
+	cacheMaxMemorySize: 0,
 
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || "/dallas-ant-mfe",
+	basePath: process.env.NEXT_PUBLIC_BASE_PATH || '/dallas-ant-mfe',
 
-  images: {
-    unoptimized: true,
-  },
+	images: {
+		unoptimized: true,
+	},
 
-  compiler: {
-    styledComponents: true,
-  },
+	compiler: {
+		styledComponents: true,
+	},
 
-  generateBuildId: async () => {
-    return Date.now().toString();
-  },
-
+	generateBuildId: async () => {
+		return Date.now().toString();
+	},
 };
 
 export default nextConfig;
