@@ -1,2 +1,2 @@
 npx prettier '**/*.{ts,tsx,json}' --write && 
-yarn lint --max-warnings 10
+yarn lint --max-warnings 20

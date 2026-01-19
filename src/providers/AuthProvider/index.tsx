@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 				}
 			});
 		} else {
-			router.push('/login');
+			router.push('/dashboard');
 			sessionStorage.removeItem('token');
 			setToken(null);
 		}
