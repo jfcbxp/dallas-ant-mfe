@@ -32,9 +32,7 @@ export default function RootLayout({
 
 	return (
 		<html lang='en'>
-			<body
-				className={`${inter.variable}`}
-				style={{ marginInline: !isMobile ? '15vw' : undefined }}>
+			<body className={`${inter.variable}`}>
 				<AuthProvider>
 					<PrimeProvider>
 						<StyledComponentsRegistry>
