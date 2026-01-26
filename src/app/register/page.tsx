@@ -27,15 +27,13 @@ import {
 
 interface FormData {
 	name: string;
-	email: string;
-	phone: string;
-	cpf: string;
 	height: string;
 	weight: string;
-	age: string;
+	birthDate: string;
 	gender: string;
-	pulseiraDeviceId: number | null;
 }
+
+type FormErrors = Partial<Record<keyof FormData, boolean>>;
 
 export default function RegisterPage() {
 	const router = useRouter();
@@ -43,40 +41,58 @@ export default function RegisterPage() {
 
 	const [formData, setFormData] = useState<FormData>({
 		name: '',
-		email: '',
-		phone: '',
-		cpf: '',
 		height: '',
 		weight: '',
-		age: '',
+		birthDate: '',
 		gender: 'M',
-		pulseiraDeviceId: null,
 	});
 
-	const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+	const [formErrors, setFormErrors] = useState<FormErrors>({});
 
 	useEffect(() => {
 		if (isSuccess) {
 			setTimeout(() => {
-				router.push('/dashboard');
+				router.push('/register');
 			}, 2000);
 		}
 	}, [isSuccess, router]);
 
 	const validateForm = (): boolean => {
-		const errors: Partial<FormData> = {};
+		const errors: FormErrors = {};
 
 		if (!formData.name.trim()) errors.name = true;
-		if (!formData.email.trim() || !formData.email.includes('@')) errors.email = true;
-		if (!formData.phone.trim()) errors.phone = true;
-		if (!formData.cpf.trim() || formData.cpf.replace(/\D/g, '').length < 11) errors.cpf = true;
-		if (!formData.height || parseFloat(formData.height) <= 0) errors.height = true;
-		if (!formData.weight || parseFloat(formData.weight) <= 0) errors.weight = true;
-		if (!formData.age || parseInt(formData.age) <= 0 || parseInt(formData.age) > 150) errors.age = true;
-		if (!formData.pulseiraDeviceId) errors.pulseiraDeviceId = true;
+		if (!formData.height || Number.parseFloat(formData.height) <= 0) errors.height = true;
+		if (!formData.weight || Number.parseFloat(formData.weight) <= 0) errors.weight = true;
+		if (!formData.birthDate || !isValidBirthDate(formData.birthDate)) errors.birthDate = true;
 
 		setFormErrors(errors);
 		return Object.keys(errors).length === 0;
+	};
+
+	const maskBirthDate = (value: string): string => {
+		const numbers = value.replaceAll(/\D/g, '');
+		if (numbers.length <= 2) return numbers;
+		if (numbers.length <= 4) return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
+		return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4, 8)}`;
+	};
+
+	const isValidBirthDate = (dateString: string): boolean => {
+		const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+		if (!regex.test(dateString)) return false;
+
+		const [day, month, year] = dateString.split('/').map(Number);
+		const date = new Date(year, month - 1, day);
+
+		const isValidDate = date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+		const age = new Date().getFullYear() - year;
+		const isValidAge = age >= 0 && age <= 150;
+
+		return isValidDate && isValidAge;
+	};
+
+	const convertBirthDateToISO = (dateString: string): string => {
+		const [day, month, year] = dateString.split('/');
+		return `${year}-${month}-${day}`;
 	};
 
 	const handleInputChange = (field: keyof FormData, value: string | number) => {
@@ -99,31 +115,18 @@ export default function RegisterPage() {
 
 		register({
 			name: formData.name,
-			email: formData.email,
-			phone: formData.phone,
-			cpf: formData.cpf,
-			height: parseFloat(formData.height),
-			weight: parseFloat(formData.weight),
-			age: parseInt(formData.age),
+			height: Number.parseFloat(formData.height),
+			weight: Number.parseFloat(formData.weight),
+			birthDate: convertBirthDateToISO(formData.birthDate),
 			gender: formData.gender,
-			pulseiraDeviceId: formData.pulseiraDeviceId || 0,
 		});
 	};
 
 	const handleCancel = () => {
-		router.push('/dashboard');
+		router.push('/register');
 	};
 
-	const isFormValid =
-		formData.name &&
-		formData.email &&
-		formData.phone &&
-		formData.cpf &&
-		formData.height &&
-		formData.weight &&
-		formData.age &&
-		formData.pulseiraDeviceId;
-
+	const isFormValid = formData.name && formData.height && formData.weight && formData.birthDate;
 	return (
 		<RegisterContainer>
 			<RegisterWrapper>
@@ -169,17 +172,16 @@ export default function RegisterPage() {
 							</FormGroup>
 
 							<FormGroup>
-								<FormLabel htmlFor='age'>Idade *</FormLabel>
+								<FormLabel htmlFor='birthDate'>Data de Nascimento *</FormLabel>
 								<FormInput
-									id='age'
-									type='number'
-									placeholder='30'
-									min='1'
-									max='150'
-									value={formData.age}
-									onChange={(e) => handleInputChange('age', e.target.value)}
+									id='birthDate'
+									type='text'
+									placeholder='DD/MM/YYYY'
+									maxLength={10}
+									value={formData.birthDate}
+									onChange={(e) => handleInputChange('birthDate', maskBirthDate(e.target.value))}
 								/>
-								{formErrors.age && <ErrorMessage>Idade válida é obrigatória</ErrorMessage>}
+								{formErrors.birthDate && <ErrorMessage>Data de nascimento válida é obrigatória (DD/MM/YYYY)</ErrorMessage>}
 							</FormGroup>
 
 							<FormGroup>

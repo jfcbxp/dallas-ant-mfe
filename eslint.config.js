@@ -62,7 +62,7 @@ module.exports = [
 			'react-hooks/rules-of-hooks': 'error',
 			'react-hooks/exhaustive-deps': 'warn',
 			'eqeqeq': ['error', 'always'],
-			'curly': ['error', 'all'],
+			'curly': 'off',
 			'semi': ['error', 'always'],
 			'no-empty': 'error',
 			'no-unreachable': 'error',

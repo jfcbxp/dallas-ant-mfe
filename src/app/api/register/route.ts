@@ -2,25 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
 	try {
-		const { name, email, phone, height, weight, age, gender, cpf, pulseiraDeviceId } = await req.json();
+		const { name, height, weight, birthDate, gender } = await req.json();
 
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 
-		const response = await fetch(`${apiBaseUrl}/users/register`, {
+		const response = await fetch(`${apiBaseUrl}/usuarios`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
 				name,
-				email,
-				phone,
 				height,
 				weight,
-				age,
+				birthDate,
 				gender,
-				cpf,
-				pulseiraDeviceId,
 			}),
 			cache: 'no-store',
 		});

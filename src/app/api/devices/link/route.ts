@@ -6,12 +6,12 @@ export async function POST(req: NextRequest) {
 
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 
-		const response = await fetch(`${apiBaseUrl}/users/vincular-pulseira/${deviceId}`, {
+		const response = await fetch(`${apiBaseUrl}/pulseiras/vincular-pulseira`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ userId }),
+			body: JSON.stringify({ userId, deviceId }),
 			cache: 'no-store',
 		});
 

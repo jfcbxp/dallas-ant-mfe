@@ -1,13 +1,9 @@
 export interface RegisterData {
 	name: string;
-	email: string;
-	phone: string;
 	height: number;
 	weight: number;
-	age: number;
+	birthDate: string;
 	gender: string;
-	cpf: string;
-	pulseiraDeviceId: number;
 }
 
 export interface RegisterResponse {
