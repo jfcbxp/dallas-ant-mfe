@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 		if (token) {
 			sessionStorage.setItem('token', token);
 		} else {
-			if (pathname !== '/register') {
+			if (pathname === '/') {
 				router.push('/dashboard');
 			}
 			sessionStorage.removeItem('token');

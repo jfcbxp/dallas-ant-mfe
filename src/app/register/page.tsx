@@ -6,8 +6,6 @@ import Image from 'next/image';
 import logo_grande from '../../../public/logo_grande.png';
 import { useRegister } from '@/hooks/useRegister';
 import { usePulseiras } from '@/hooks/usePulseiras';
-import { useAuthContext } from '@/contexts/AuthContext';
-import useIsMobile from '@/hooks/useIsMobile';
 import {
 	RegisterContainer,
 	RegisterWrapper,
@@ -47,8 +45,6 @@ interface FormData {
 
 export default function RegisterPage() {
 	const router = useRouter();
-	const { token } = useAuthContext();
-	const isMobile = useIsMobile();
 	const { data: pulseiras = [] } = usePulseiras();
 	const { mutate: register, isPending, isError, error, isSuccess } = useRegister();
 
@@ -65,12 +61,6 @@ export default function RegisterPage() {
 	});
 
 	const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
-	useEffect(() => {
-		if (token) {
-			router.push('/dashboard');
-		}
-	}, [router, token]);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -139,7 +129,7 @@ export default function RegisterPage() {
 	};
 
 	const handleCancel = () => {
-		router.push('/login');
+		router.push('/dashboard');
 	};
 
 	const isFormValid =
