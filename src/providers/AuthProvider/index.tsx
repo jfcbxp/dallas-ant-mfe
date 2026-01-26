@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { fetchMe } from '../../services/fetchMe';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { AuthContext } from '@/contexts/AuthContext/index';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const [token, setToken] = useState<string | null>(() => {
 		if (typeof window !== 'undefined') {
@@ -25,18 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 	useEffect(() => {
 		if (token) {
 			sessionStorage.setItem('token', token);
-			fetchMe(token).then((response) => {
-				if (response !== 'ok') {
-					sessionStorage.removeItem('token');
-					setToken(null);
-				}
-			});
 		} else {
-			router.push('/dashboard');
+			if (pathname !== '/register') {
+				router.push('/dashboard');
+			}
 			sessionStorage.removeItem('token');
 			setToken(null);
 		}
-	}, [router, token]);
+	}, [router, pathname, token]);
 
 	const value = React.useMemo(() => ({ token, setToken, checkRequestError }), [token, setToken, checkRequestError]);
 

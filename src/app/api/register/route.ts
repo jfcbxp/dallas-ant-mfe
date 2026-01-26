@@ -2,27 +2,33 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
 	try {
-		const token = req.headers.get('authorization');
+		const { name, email, phone, height, weight, age, gender, cpf, pulseiraDeviceId } = await req.json();
 
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 
-		if (!token) {
-			return NextResponse.json({ error: 'Authorization token missing' }, { status: 401 });
-		}
-
-		const response = await fetch(`${apiBaseUrl}/auth/me`, {
+		const response = await fetch(`${apiBaseUrl}/users/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${token}`,
 			},
+			body: JSON.stringify({
+				name,
+				email,
+				phone,
+				height,
+				weight,
+				age,
+				gender,
+				cpf,
+				pulseiraDeviceId,
+			}),
 			cache: 'no-store',
 		});
 
 		const data = await response.json();
 
 		if (!response.ok) {
-			return NextResponse.json({ error: data?.message || 'Failed to fetch user info' }, { status: response.status });
+			return NextResponse.json({ error: data?.message || 'Registration failed' }, { status: response.status });
 		}
 
 		return NextResponse.json(data, { status: 200 });
