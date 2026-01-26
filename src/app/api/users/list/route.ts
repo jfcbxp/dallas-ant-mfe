@@ -4,7 +4,7 @@ export async function GET(_: NextRequest) {
 	try {
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 
-		const response = await fetch(`${apiBaseUrl}/users/vincular-pulseira`, {
+		const response = await fetch(`${apiBaseUrl}/usuarios`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

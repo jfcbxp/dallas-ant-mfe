@@ -4,7 +4,7 @@ export async function GET(_: NextRequest) {
 	try {
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 
-		const response = await fetch(`${apiBaseUrl}/ant/disponiveis/todas`, {
+		const response = await fetch(`${apiBaseUrl}/pulseiras/todas`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',

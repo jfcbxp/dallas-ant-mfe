@@ -24,7 +24,6 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const isMobile = useIsMobile();
 	const queryClientRef = useRef<QueryClient>();
 	if (!queryClientRef.current) {
 		queryClientRef.current = new QueryClient();

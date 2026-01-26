@@ -101,7 +101,7 @@ export default function LinkDevicePage() {
 										onClick={() => handleSelectDevice(device.deviceId)}>
 										<DeviceHeader>
 											<DeviceId>Device #{device.deviceId}</DeviceId>
-											<DeviceStatus $hasUser={false}>Disponível</DeviceStatus>
+											<DeviceStatus $hasUser={!!device.user}>{device.user ? 'Vinculado' : 'Disponível'}</DeviceStatus>
 										</DeviceHeader>
 
 										<DeviceInfo>
@@ -111,41 +111,91 @@ export default function LinkDevicePage() {
 													<span>{device.heartRate} bpm</span>
 												</InfoItem>
 											)}
-
 											{device.beatTime !== undefined && (
 												<InfoItem>
 													<strong>Beat Time</strong>
 													<span>{device.beatTime}ms</span>
 												</InfoItem>
 											)}
-
 											{device.beatCount !== undefined && (
 												<InfoItem>
 													<strong>Beat Count</strong>
 													<span>{device.beatCount}</span>
 												</InfoItem>
 											)}
-
 											{device.serialNumber !== undefined && (
 												<InfoItem>
 													<strong>Serial</strong>
 													<span>{device.serialNumber}</span>
 												</InfoItem>
 											)}
-
 											{device.stickId !== undefined && (
 												<InfoItem>
 													<strong>Stick ID</strong>
 													<span>{device.stickId}</span>
 												</InfoItem>
 											)}
-
 											{device.receivedAt && (
 												<InfoItem>
 													<strong>Última Leitura</strong>
 													<span>{new Date(device.receivedAt).toLocaleTimeString('pt-BR')}</span>
 												</InfoItem>
 											)}
+											{device.user && (
+												<>
+													<div
+														style={{
+															gridColumn: '1 / -1',
+															borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+															paddingTop: '12px',
+															marginTop: '12px',
+														}}>
+														<strong
+															style={{
+																color: 'rgba(255, 255, 255, 0.9)',
+																fontSize: '12px',
+																textTransform: 'uppercase',
+																display: 'block',
+																marginBottom: '8px',
+															}}>
+															Usuário Vinculado
+														</strong>
+													</div>
+
+													<InfoItem>
+														<strong>Nome</strong>
+														<span>{device.user.name}</span>
+													</InfoItem>
+
+													{device.user.gender && (
+														<InfoItem>
+															<strong>Gênero</strong>
+															<span>{device.user.gender === 'M' ? 'Masculino' : device.user.gender === 'F' ? 'Feminino' : 'Outro'}</span>
+														</InfoItem>
+													)}
+
+													{device.user.height && (
+														<InfoItem>
+															<strong>Altura</strong>
+															<span>{device.user.height} cm</span>
+														</InfoItem>
+													)}
+
+													{device.user.weight && (
+														<InfoItem>
+															<strong>Peso</strong>
+															<span>{device.user.weight} kg</span>
+														</InfoItem>
+													)}
+
+													{device.user.birthDate && (
+														<InfoItem>
+															<strong>Data de Nascimento</strong>
+															<span>{new Date(device.user.birthDate).toLocaleDateString('pt-BR')}</span>
+														</InfoItem>
+													)}
+												</>
+											)}{' '}
 										</DeviceInfo>
 									</DeviceCard>
 								))}

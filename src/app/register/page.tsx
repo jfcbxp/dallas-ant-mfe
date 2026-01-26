@@ -2,15 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import logo_grande from '../../../public/logo_grande.png';
 import { useRegister } from '@/hooks/useRegister';
-import { usePulseiras } from '@/hooks/usePulseiras';
 import {
 	RegisterContainer,
 	RegisterWrapper,
 	RegisterHeader,
-	LogoContainer,
 	RegisterTitle,
 	RegisterSubtitle,
 	RegisterForm,
@@ -21,8 +17,6 @@ import {
 	FormLabel,
 	FormInput,
 	FormSelect,
-	PulseiraSelector,
-	PulseiraBadge,
 	ButtonContainer,
 	SubmitButton,
 	CancelButton,
@@ -45,7 +39,6 @@ interface FormData {
 
 export default function RegisterPage() {
 	const router = useRouter();
-	const { data: pulseiras = [] } = usePulseiras();
 	const { mutate: register, isPending, isError, error, isSuccess } = useRegister();
 
 	const [formData, setFormData] = useState<FormData>({
@@ -97,17 +90,6 @@ export default function RegisterPage() {
 		}));
 	};
 
-	const handlePulseiraSelect = (deviceId: number) => {
-		setFormData((prev) => ({
-			...prev,
-			pulseiraDeviceId: prev.pulseiraDeviceId === deviceId ? null : deviceId,
-		}));
-		setFormErrors((prev) => ({
-			...prev,
-			pulseiraDeviceId: undefined,
-		}));
-	};
-
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -146,15 +128,8 @@ export default function RegisterPage() {
 		<RegisterContainer>
 			<RegisterWrapper>
 				<RegisterHeader>
-					<LogoContainer>
-						<Image
-							alt='logo_grande'
-							src={logo_grande}
-							height={75}
-						/>
-					</LogoContainer>
 					<RegisterTitle>Criar Conta</RegisterTitle>
-					<RegisterSubtitle>Cadastre-se e vinculte sua pulseira de monitoramento</RegisterSubtitle>
+					<RegisterSubtitle>Cadastre-se</RegisterSubtitle>
 				</RegisterHeader>
 
 				<RegisterForm onSubmit={handleSubmit}>
@@ -172,42 +147,6 @@ export default function RegisterPage() {
 									onChange={(e) => handleInputChange('name', e.target.value)}
 								/>
 								{formErrors.name && <ErrorMessage>Nome é obrigatório</ErrorMessage>}
-							</FormGroup>
-
-							<FormGroup>
-								<FormLabel htmlFor='email'>Email *</FormLabel>
-								<FormInput
-									id='email'
-									type='email'
-									placeholder='joao@example.com'
-									value={formData.email}
-									onChange={(e) => handleInputChange('email', e.target.value)}
-								/>
-								{formErrors.email && <ErrorMessage>Email válido é obrigatório</ErrorMessage>}
-							</FormGroup>
-
-							<FormGroup>
-								<FormLabel htmlFor='cpf'>CPF *</FormLabel>
-								<FormInput
-									id='cpf'
-									type='text'
-									placeholder='000.000.000-00'
-									value={formData.cpf}
-									onChange={(e) => handleInputChange('cpf', e.target.value)}
-								/>
-								{formErrors.cpf && <ErrorMessage>CPF válido é obrigatório</ErrorMessage>}
-							</FormGroup>
-
-							<FormGroup>
-								<FormLabel htmlFor='phone'>Telefone *</FormLabel>
-								<FormInput
-									id='phone'
-									type='tel'
-									placeholder='(11) 98765-4321'
-									value={formData.phone}
-									onChange={(e) => handleInputChange('phone', e.target.value)}
-								/>
-								{formErrors.phone && <ErrorMessage>Telefone é obrigatório</ErrorMessage>}
 							</FormGroup>
 						</FormGrid>
 					</FormSection>
@@ -273,31 +212,6 @@ export default function RegisterPage() {
 								{formErrors.weight && <ErrorMessage>Peso válido é obrigatório</ErrorMessage>}
 							</FormGroup>
 						</FormGrid>
-					</FormSection>
-
-					{/* Pulseira Selection */}
-					<FormSection>
-						<SectionTitle>Vincular Pulseira *</SectionTitle>
-						<FormLabel>Selecione sua pulseira ANT+:</FormLabel>
-						{pulseiras.length > 0 ? (
-							<PulseiraSelector>
-								{pulseiras.map((pulseira) => (
-									<PulseiraBadge
-										key={pulseira.deviceId}
-										type='button'
-										$isSelected={formData.pulseiraDeviceId === pulseira.deviceId}
-										onClick={() => handlePulseiraSelect(pulseira.deviceId)}>
-										Device {pulseira.deviceId}
-										<small>{pulseira.heartRate} bpm</small>
-									</PulseiraBadge>
-								))}
-							</PulseiraSelector>
-						) : (
-							<div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', marginTop: '8px' }}>
-								Nenhuma pulseira disponível. Certifique-se de que sua pulseira está conectada.
-							</div>
-						)}
-						{formErrors.pulseiraDeviceId && <ErrorMessage>Selecione uma pulseira para continuar</ErrorMessage>}
 					</FormSection>
 
 					{/* Messages */}

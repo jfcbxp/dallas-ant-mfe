@@ -5,8 +5,6 @@ export const useAvailableDevices = () => {
 	return useQuery<Device[], Error>({
 		queryKey: ['availableDevices'],
 		queryFn: fetchAvailableDevices,
-		refetchInterval: 5000,
-		refetchIntervalInBackground: true,
 		staleTime: 1000,
 	});
 };
