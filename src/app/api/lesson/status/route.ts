@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET(_: NextRequest) {
 	try {
 		const apiBaseUrl = process.env.API_BASE_URL || '';
 

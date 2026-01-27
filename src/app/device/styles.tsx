@@ -35,12 +35,7 @@ export const PageSubtitle = styled.p`
 
 export const ContentWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 400px;
 	gap: 30px;
-
-	@media (max-width: 1024px) {
-		grid-template-columns: 1fr;
-	}
 `;
 
 export const DevicesSection = styled.div`

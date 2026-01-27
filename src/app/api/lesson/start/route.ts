@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
 	try {
-		const response = await fetch('http://localhost:3000/lesson/start', {
+		const apiBaseUrl = process.env.API_BASE_URL || '';
+		const response = await fetch(`${apiBaseUrl}/lesson/start`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
