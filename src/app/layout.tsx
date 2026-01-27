@@ -24,7 +24,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const queryClientRef = useRef<QueryClient>();
+	const queryClientRef = useRef<QueryClient | undefined>(undefined);
 	if (!queryClientRef.current) {
 		queryClientRef.current = new QueryClient();
 	}
