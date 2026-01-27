@@ -6,13 +6,11 @@ import { useLessonStatus } from '@/hooks/useLessonStatus';
 import { useLessonResult } from '@/hooks/useLessonResult';
 import { AthleteCard } from './components/AthleteCard';
 import { ZoneStats } from '@/types/heartRate';
+import Image from 'next/image';
+import logo from '../../../public/logo_grande.png';
 import {
 	DashboardContainer,
 	Header,
-	Logo,
-	LogoIcon,
-	LogoText,
-	Title,
 	CardsGrid,
 	StatsBar,
 	StatItem,
@@ -23,7 +21,6 @@ import {
 	AverageIcon,
 	AverageInfo,
 	AverageLabel,
-	AverageValue,
 } from './styles';
 
 export default function DashboardPage() {
@@ -87,14 +84,6 @@ export default function DashboardPage() {
 		}));
 	}, [isActive, resultData, pulseirasData]);
 
-	const averageHR = useMemo(() => {
-		if (!isActive && resultData) {
-			return resultData.totalPoints;
-		}
-		if (pulseirasData.length === 0) return 0;
-		return Math.round(pulseirasData.reduce((sum, d) => sum + d.heartRate, 0) / pulseirasData.length);
-	}, [isActive, resultData, pulseirasData]);
-
 	if (isLoading) {
 		return (
 			<DashboardContainer>
@@ -106,11 +95,10 @@ export default function DashboardPage() {
 	return (
 		<DashboardContainer>
 			<Header>
-				<Logo>
-					<LogoIcon>💓</LogoIcon>
-					<LogoText>Dallas PULSE</LogoText>
-				</Logo>
-				<Title>Monitore sua Frequência Cardíaca!</Title>
+				<Image
+					alt='logo'
+					src={logo}
+				/>
 			</Header>
 
 			<CardsGrid>
@@ -140,6 +128,7 @@ export default function DashboardPage() {
 								athleteName={item.user.name}
 								zone=''
 								isPoints
+								zonePoints={item.zones}
 							/>
 						))}
 			</CardsGrid>
@@ -159,11 +148,10 @@ export default function DashboardPage() {
 					</StatItem>
 				))}
 
-				<AverageDisplay>
+				<AverageDisplay $isActive={isActive}>
 					<AverageIcon>{isActive ? '💙' : '🏆'}</AverageIcon>
 					<AverageInfo>
-						<AverageLabel>{isActive ? '✓ Aula Ativa' : '✕ Aula Encerrada'}</AverageLabel>
-						<AverageValue>{isActive ? `${averageHR} bpm` : `${averageHR} pts`}</AverageValue>
+						<AverageLabel $isActive={isActive}>{isActive ? 'Aula Ativa' : 'Aula Encerrada'}</AverageLabel>
 					</AverageInfo>
 				</AverageDisplay>
 			</StatsBar>

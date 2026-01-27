@@ -4,6 +4,13 @@ import { ZoneBarContainer, ZoneSegment, ZoneLabel, ZoneLabelContainer } from './
 interface HeartRateZoneBarProps {
 	heartRate: number;
 	maxHeartRate?: number;
+	zonePoints?: {
+		zone1: number;
+		zone2: number;
+		zone3: number;
+		zone4: number;
+		zone5: number;
+	};
 }
 
 const ZONES = [
@@ -18,9 +25,11 @@ const getCurrentZone = (hr: number): number => {
 	return ZONES.findIndex((zone) => hr >= zone.min && hr < zone.max);
 };
 
-export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, maxHeartRate = 220 }) => {
+export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, maxHeartRate = 220, zonePoints }) => {
 	const currentZoneIndex = getCurrentZone(heartRate);
 	const percentage = Math.min((heartRate / maxHeartRate) * 100, 100);
+
+	const zoneValues = zonePoints ? [zonePoints.zone1, zonePoints.zone2, zonePoints.zone3, zonePoints.zone4, zonePoints.zone5] : null;
 
 	return (
 		<div>
@@ -36,8 +45,11 @@ export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, m
 			</ZoneBarContainer>
 
 			<ZoneLabelContainer>
-				{ZONES.map((zone) => (
-					<ZoneLabel key={zone.label}>{zone.label}</ZoneLabel>
+				{ZONES.map((zone, index) => (
+					<ZoneLabel key={zone.label}>
+						{zone.label}
+						{zoneValues && ` (${zoneValues[index]})`}
+					</ZoneLabel>
 				))}
 			</ZoneLabelContainer>
 		</div>
