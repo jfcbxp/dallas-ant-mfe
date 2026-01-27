@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { useAvailableDevices } from '@/hooks/useAvailableDevices';
 import { useUsersList } from '@/hooks/useUsersList';
 import { useLinkDevice } from '@/hooks/useLinkDevice';
+import { useLessonStatus } from '@/hooks/useLessonStatus';
+import { startLesson } from '@/services/startLesson';
+import { endLesson } from '@/services/endLesson';
 import {
 	LinkDeviceContainer,
 	LinkDeviceWrapper,
 	PageHeader,
-	PageTitle,
 	PageSubtitle,
 	ContentWrapper,
 	DevicesSection,
@@ -20,7 +22,6 @@ import {
 	DeviceStatus,
 	DeviceInfo,
 	InfoItem,
-	SidebarSection,
 	FormGroup,
 	FormLabel,
 	FormSelect,
@@ -31,20 +32,33 @@ import {
 	EmptyState,
 	ErrorMessage,
 	SuccessMessage,
+	LessonControlButtons,
+	StartButton,
+	EndButton,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalTitle,
+	CloseButton,
 } from './styles';
 
 export default function LinkDevicePage() {
 	const { data: devices = [], isLoading: devicesLoading } = useAvailableDevices();
 	const { data: users = [], isLoading: usersLoading } = useUsersList();
 	const { mutate: linkDevice, isPending: isLinking, isError, error, isSuccess } = useLinkDevice();
+	const { data: lessonStatus } = useLessonStatus();
 
 	const [selectedDeviceId, setSelectedDeviceId] = useState<number | null>(null);
 	const [selectedUserId, setSelectedUserId] = useState<string>('');
+	const [isStarting, setIsStarting] = useState(false);
+	const [isEnding, setIsEnding] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		if (isSuccess) {
 			setSelectedDeviceId(null);
 			setSelectedUserId('');
+			setIsModalOpen(false);
 			setTimeout(() => {
 				// Success message will auto-hide after a few seconds
 			}, 2000);
@@ -52,12 +66,35 @@ export default function LinkDevicePage() {
 	}, [isSuccess]);
 
 	const handleSelectDevice = (deviceId: number) => {
-		setSelectedDeviceId(selectedDeviceId === deviceId ? null : deviceId);
+		setSelectedDeviceId(deviceId);
+		setIsModalOpen(true);
 	};
 
 	const handleLinkDevice = () => {
 		if (selectedDeviceId !== null && selectedUserId) {
 			linkDevice({ deviceId: selectedDeviceId, userId: selectedUserId });
+		}
+	};
+
+	const handleStartLesson = async () => {
+		setIsStarting(true);
+		try {
+			await startLesson();
+		} catch (err) {
+			console.error('Error starting lesson:', err);
+		} finally {
+			setIsStarting(false);
+		}
+	};
+
+	const handleEndLesson = async () => {
+		setIsEnding(true);
+		try {
+			await endLesson();
+		} catch (err) {
+			console.error('Error ending lesson:', err);
+		} finally {
+			setIsEnding(false);
 		}
 	};
 
@@ -83,8 +120,19 @@ export default function LinkDevicePage() {
 		<LinkDeviceContainer>
 			<LinkDeviceWrapper>
 				<PageHeader>
-					<PageTitle>Vincular Pulseira a Usuário</PageTitle>
 					<PageSubtitle>Selecione um dispositivo e escolha o usuário para vincular</PageSubtitle>
+					<LessonControlButtons>
+						<StartButton
+							onClick={handleStartLesson}
+							disabled={lessonStatus?.status === 'ACTIVE' || isStarting}>
+							{isStarting ? 'Iniciando...' : 'Iniciar Aula'}
+						</StartButton>
+						<EndButton
+							onClick={handleEndLesson}
+							disabled={lessonStatus?.status !== 'ACTIVE' || isEnding}>
+							{isEnding ? 'Finalizando...' : 'Finalizar Aula'}
+						</EndButton>
+					</LessonControlButtons>
 				</PageHeader>
 
 				<ContentWrapper>
@@ -97,7 +145,7 @@ export default function LinkDevicePage() {
 								{devices.map((device) => (
 									<DeviceCard
 										key={device.deviceId}
-										$isSelected={selectedDeviceId === device.deviceId}
+										$isSelected={false}
 										onClick={() => handleSelectDevice(device.deviceId)}>
 										<DeviceHeader>
 											<DeviceId>Device #{device.deviceId}</DeviceId>
@@ -207,60 +255,57 @@ export default function LinkDevicePage() {
 							</EmptyState>
 						)}
 					</DevicesSection>
-
-					{/* Sidebar */}
-					<SidebarSection>
-						<SectionTitle>Vincular Usuário</SectionTitle>
-
-						{selectedDevice && (
-							<SelectedDeviceInfo>
-								Selecionado: <strong>Device #{selectedDevice.deviceId}</strong>
-								<br />
-								{selectedDevice.heartRate !== undefined && `${selectedDevice.heartRate} bpm`}
-							</SelectedDeviceInfo>
-						)}
-
-						<FormGroup>
-							<FormLabel htmlFor='user-select'>Selecione o Usuário *</FormLabel>
-							<FormSelect
-								id='user-select'
-								value={selectedUserId}
-								onChange={(e) => setSelectedUserId(e.target.value)}
-								disabled={!selectedDeviceId}>
-								<option value=''>-- Selecione um usuário --</option>
-								{users.map((user) => (
-									<option
-										key={user.id}
-										value={user.id}>
-										{user.name}
-									</option>
-								))}
-							</FormSelect>
-
-							{!selectedDeviceId && <ErrorMessage>Selecione um dispositivo primeiro</ErrorMessage>}
-
-							{users.length === 0 && <ErrorMessage>Nenhum usuário disponível para vincular</ErrorMessage>}
-						</FormGroup>
-
-						<FormGroup>
-							<LinkButton
-								onClick={handleLinkDevice}
-								disabled={!canLinkDevice || isLinking}>
-								{isLinking ? 'Vinculando...' : 'Vincular Dispositivo'}
-							</LinkButton>
-
-							{isSuccess && <SuccessMessage>✓ Dispositivo vinculado com sucesso!</SuccessMessage>}
-
-							{isError && <ErrorMessage>✗ Erro ao vincular: {error?.message || 'Tente novamente'}</ErrorMessage>}
-						</FormGroup>
-
-						<div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.5)', marginTop: '16px', textAlign: 'center' }}>
-							<p>1. Selecione um dispositivo na lista</p>
-							<p>2. Escolha um usuário</p>
-							<p>3. Clique para vincular</p>
-						</div>
-					</SidebarSection>
 				</ContentWrapper>
+
+				{isModalOpen && (
+					<ModalOverlay onClick={() => setIsModalOpen(false)}>
+						<ModalContent onClick={(e) => e.stopPropagation()}>
+							<ModalHeader>
+								<ModalTitle>Vincular Usuário</ModalTitle>
+								<CloseButton onClick={() => setIsModalOpen(false)}>×</CloseButton>
+							</ModalHeader>
+
+							{selectedDevice && (
+								<SelectedDeviceInfo>
+									Selecionado: <strong>Device #{selectedDevice.deviceId}</strong>
+									<br />
+									{selectedDevice.heartRate !== undefined && `${selectedDevice.heartRate} bpm`}
+								</SelectedDeviceInfo>
+							)}
+
+							<FormGroup>
+								<FormLabel htmlFor='user-select-modal'>Selecione o Usuário *</FormLabel>
+								<FormSelect
+									id='user-select-modal'
+									value={selectedUserId}
+									onChange={(e) => setSelectedUserId(e.target.value)}>
+									<option value=''>-- Selecione um usuário --</option>
+									{users.map((user) => (
+										<option
+											key={user.id}
+											value={user.id}>
+											{user.name}
+										</option>
+									))}
+								</FormSelect>
+
+								{users.length === 0 && <ErrorMessage>Nenhum usuário disponível para vincular</ErrorMessage>}
+							</FormGroup>
+
+							<FormGroup>
+								<LinkButton
+									onClick={handleLinkDevice}
+									disabled={!canLinkDevice || isLinking}>
+									{isLinking ? 'Vinculando...' : 'Vincular Dispositivo'}
+								</LinkButton>
+
+								{isSuccess && <SuccessMessage>✓ Dispositivo vinculado com sucesso!</SuccessMessage>}
+
+								{isError && <ErrorMessage>✗ Erro ao vincular: {error?.message || 'Tente novamente'}</ErrorMessage>}
+							</FormGroup>
+						</ModalContent>
+					</ModalOverlay>
+				)}
 			</LinkDeviceWrapper>
 		</LinkDeviceContainer>
 	);

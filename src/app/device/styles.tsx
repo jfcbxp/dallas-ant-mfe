@@ -14,6 +14,10 @@ export const LinkDeviceWrapper = styled.div`
 export const PageHeader = styled.div`
 	margin-bottom: 40px;
 	text-align: center;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 export const PageTitle = styled.h1`
@@ -277,4 +281,122 @@ export const SuccessMessage = styled.div`
 	border-left: 2px solid #48bb78;
 	border-radius: 4px;
 	margin-top: 12px;
+`;
+
+export const LessonControlButtons = styled.div`
+	display: flex;
+	gap: 16px;
+	margin-top: 20px;
+`;
+
+export const StartButton = styled.button`
+	padding: 12px 24px;
+	border: none;
+	border-radius: 8px;
+	background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(72, 187, 120, 0.4);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+`;
+
+export const EndButton = styled.button`
+	padding: 12px 24px;
+	border: none;
+	border-radius: 8px;
+	background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(245, 101, 101, 0.4);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+`;
+
+export const ModalOverlay = styled.div`
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.7);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	padding: 20px;
+`;
+
+export const ModalContent = styled.div`
+	background: rgba(26, 41, 66, 0.98);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 16px;
+	padding: 24px;
+	max-width: 500px;
+	width: 100%;
+	max-height: 90vh;
+	overflow-y: auto;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+`;
+
+export const ModalHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	padding-bottom: 12px;
+	border-bottom: 2px solid rgba(66, 153, 225, 0.3);
+`;
+
+export const ModalTitle = styled.h2`
+	color: #fff;
+	font-size: 18px;
+	font-weight: 600;
+	margin: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+`;
+
+export const CloseButton = styled.button`
+	background: none;
+	border: none;
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 32px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: color 0.3s ease;
+
+	&:hover {
+		color: #fff;
+	}
 `;
