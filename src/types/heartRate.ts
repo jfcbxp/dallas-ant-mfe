@@ -1,3 +1,15 @@
+export interface UserData {
+	id: string;
+	name: string;
+	gender?: string;
+	weight?: number;
+	height?: number;
+	birthDate?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	deviceId?: number;
+}
+
 export interface HeartRateData {
 	deviceId: number;
 	heartRate: number;
@@ -7,6 +19,7 @@ export interface HeartRateData {
 	serialNumber: number | null;
 	stickId: number;
 	receivedAt: string;
+	user?: UserData;
 }
 
 export interface ZoneStats {

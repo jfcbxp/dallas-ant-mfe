@@ -17,6 +17,7 @@ interface AthleteCardProps {
 	data: HeartRateData;
 	athleteName: string;
 	zone: string;
+	isPoints?: boolean;
 }
 
 const getZoneColor = (hr: number): string => {
@@ -27,20 +28,12 @@ const getZoneColor = (hr: number): string => {
 	return '#c53030';
 };
 
-const getZoneName = (hr: number): string => {
-	if (hr < 60) return 'Z1 - Leve';
-	if (hr < 103) return 'Z2 - Moderado';
-	if (hr < 130) return 'Z3 - Aeróbico';
-	if (hr < 174) return 'Z4 - Intenso';
-	return 'Z5 - Máximo';
-};
-
 const getPercentage = (hr: number): number => {
 	const maxHr = 220;
 	return Math.min(Math.round((hr / maxHr) * 100), 100);
 };
 
-export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName }) => {
+export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName, isPoints = false }) => {
 	const zoneColor = getZoneColor(data.heartRate);
 	const percentage = getPercentage(data.heartRate);
 	const initials = athleteName
@@ -64,7 +57,7 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName }) =
 					$percentage={percentage}>
 					<HeartRateValue>
 						{data.heartRate}
-						<HeartRateUnit>bpm</HeartRateUnit>
+						<HeartRateUnit>{isPoints ? 'pts' : 'bpm'}</HeartRateUnit>
 					</HeartRateValue>
 				</HeartRateCircle>
 				<HeartRateZoneBar heartRate={data.heartRate} />
