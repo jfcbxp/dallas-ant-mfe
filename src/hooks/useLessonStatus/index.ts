@@ -5,8 +5,8 @@ export const useLessonStatus = () => {
 	return useQuery<LessonStatus, Error>({
 		queryKey: ['lessonStatus'],
 		queryFn: fetchLessonStatus,
-		refetchInterval: 3000,
+		refetchInterval: 1000,
 		refetchIntervalInBackground: true,
-		staleTime: 1000,
+		staleTime: 0,
 	});
 };
