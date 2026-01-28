@@ -6,7 +6,6 @@ import GlobalStyle from '@/styles/global';
 import theme from '@/styles/theme';
 import { AuthProvider } from '../providers/AuthProvider';
 import StyledComponentsRegistry from '../lib/registry';
-import useIsMobile from '@/hooks/useIsMobile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRef } from 'react';
 import PrimeProvider from '../providers/PrimeProvider';

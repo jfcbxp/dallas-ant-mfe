@@ -5,6 +5,7 @@ import { usePulseiras } from '@/hooks/usePulseiras';
 import { useLessonStatus } from '@/hooks/useLessonStatus';
 import { useLessonResult } from '@/hooks/useLessonResult';
 import { AthleteCard } from './components/AthleteCard';
+import { Podium } from './components/Podium';
 import { ZoneStats } from '@/types/heartRate';
 import Image from 'next/image';
 import logo from '../../../public/logo_grande.png';
@@ -101,37 +102,20 @@ export default function DashboardPage() {
 				/>
 			</Header>
 
-			<CardsGrid>
-				{isActive
-					? pulseirasData.map((item, index) => (
-							<AthleteCard
-								key={item.deviceId}
-								data={item}
-								athleteName={item.user?.name || `Atleta ${index + 1}`}
-								zone={`ZONE ${item.stickId}`}
-							/>
-						))
-					: resultData?.deviceResults.map((item) => (
-							<AthleteCard
-								key={item.deviceId}
-								data={{
-									deviceId: item.deviceId,
-									heartRate: item.points,
-									beatTime: 0,
-									beatCount: 0,
-									manufacturerId: null,
-									serialNumber: null,
-									stickId: 0,
-									receivedAt: '',
-									user: item.user,
-								}}
-								athleteName={item.user.name}
-								zone=''
-								isPoints
-								zonePoints={item.zones}
-							/>
-						))}
-			</CardsGrid>
+			{isActive ? (
+				<CardsGrid>
+					{pulseirasData.map((item, index) => (
+						<AthleteCard
+							key={item.deviceId}
+							data={item}
+							athleteName={item.user?.name || `Atleta ${index + 1}`}
+							zone={`ZONE ${item.stickId}`}
+						/>
+					))}
+				</CardsGrid>
+			) : (
+				resultData && <Podium deviceResults={resultData.deviceResults} />
+			)}
 
 			<StatsBar>
 				{zoneStats.map((stat) => (
