@@ -28,11 +28,11 @@ interface AthleteCardProps {
 }
 
 const getZoneColor = (hr: number): string => {
-	if (hr < 60) return '#4299e1';
-	if (hr < 103) return '#48bb78';
-	if (hr < 130) return '#ed8936';
-	if (hr < 174) return '#f56565';
-	return '#c53030';
+	if (hr < 100) return '#4299e1'; // Z1
+	if (hr < 120) return '#48bb78'; // Z2
+	if (hr < 140) return '#ed8936'; // Z3
+	if (hr < 170) return '#f56565'; // Z4
+	return '#c53030'; // Z5
 };
 
 const getPercentage = (hr: number): number => {

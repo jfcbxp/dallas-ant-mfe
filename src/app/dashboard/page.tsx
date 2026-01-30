@@ -72,11 +72,46 @@ export default function DashboardPage() {
 		}
 
 		const zones = [
-			{ zone: 'Z1', label: 'Leve', range: '60-60%', color: '#4299e1', min: 0, max: 60 },
-			{ zone: 'Z2', label: 'Moderado', range: '★ 3-13', color: '#48bb78', min: 60, max: 103 },
-			{ zone: 'Z3', label: 'Aeróbico', range: '★ 3-103', color: '#ed8936', min: 103, max: 130 },
-			{ zone: 'Z4', label: 'Intenso', range: '★ 3-100', color: '#f56565', min: 130, max: 174 },
-			{ zone: 'Z5', label: 'Máximo', range: '1-174', color: '#c53030', min: 174, max: 999 },
+			{
+				zone: 'Z1',
+				label: 'Leve',
+				range: 'até 100 bpm',
+				color: '#4299e1',
+				min: 0,
+				max: 100,
+			},
+			{
+				zone: 'Z2',
+				label: 'Moderado',
+				range: '100 – 119 bpm',
+				color: '#48bb78',
+				min: 100,
+				max: 120,
+			},
+			{
+				zone: 'Z3',
+				label: 'Aeróbico',
+				range: '120 – 139 bpm',
+				color: '#ed8936',
+				min: 120,
+				max: 140,
+			},
+			{
+				zone: 'Z4',
+				label: 'Intenso',
+				range: '140 – 169 bpm',
+				color: '#f56565',
+				min: 140,
+				max: 170,
+			},
+			{
+				zone: 'Z5',
+				label: 'Máximo',
+				range: '170 bpm ou mais',
+				color: '#c53030',
+				min: 170,
+				max: 999,
+			},
 		];
 
 		return zones.map((z) => ({

@@ -14,11 +14,11 @@ interface HeartRateZoneBarProps {
 }
 
 const ZONES = [
-	{ min: 0, max: 60, label: 'Z1', color: '#4299e1', colorName: 'Azul' },
-	{ min: 60, max: 103, label: 'Z2', color: '#48bb78', colorName: 'Verde' },
-	{ min: 103, max: 130, label: 'Z3', color: '#ed8936', colorName: 'Laranja' },
-	{ min: 130, max: 174, label: 'Z4', color: '#f56565', colorName: 'Vermelho' },
-	{ min: 174, max: 220, label: 'Z5', color: '#c53030', colorName: 'Vermelho Escuro' },
+	{ min: 0, max: 100, label: 'Z1', color: '#4299e1', colorName: 'Azul' },
+	{ min: 100, max: 120, label: 'Z2', color: '#48bb78', colorName: 'Verde' },
+	{ min: 120, max: 140, label: 'Z3', color: '#ed8936', colorName: 'Laranja' },
+	{ min: 140, max: 170, label: 'Z4', color: '#f56565', colorName: 'Vermelho' },
+	{ min: 170, max: 220, label: 'Z5', color: '#c53030', colorName: 'Vermelho Escuro' },
 ];
 
 const getCurrentZone = (hr: number): number => {
