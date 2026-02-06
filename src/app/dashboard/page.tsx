@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { usePulseiras } from '@/hooks/usePulseiras';
 import { useLessonStatus } from '@/hooks/useLessonStatus';
 import { useLessonResult } from '@/hooks/useLessonResult';
@@ -71,53 +71,32 @@ export default function DashboardPage() {
 			];
 		}
 
-		const zones = [
-			{
-				zone: 'Z1',
-				label: 'Leve',
-				range: 'até 100 bpm',
-				color: '#4299e1',
-				min: 0,
-				max: 100,
-			},
-			{
-				zone: 'Z2',
-				label: 'Moderado',
-				range: '100 – 119 bpm',
-				color: '#48bb78',
-				min: 100,
-				max: 120,
-			},
-			{
-				zone: 'Z3',
-				label: 'Aeróbico',
-				range: '120 – 139 bpm',
-				color: '#ed8936',
-				min: 120,
-				max: 140,
-			},
-			{
-				zone: 'Z4',
-				label: 'Intenso',
-				range: '140 – 169 bpm',
-				color: '#f56565',
-				min: 140,
-				max: 170,
-			},
-			{
-				zone: 'Z5',
-				label: 'Máximo',
-				range: '170 bpm ou mais',
-				color: '#c53030',
-				min: 170,
-				max: 999,
-			},
+		const zoneLabels = [
+			{ zone: 'Z1', label: 'Leve', color: '#4299e1' },
+			{ zone: 'Z2', label: 'Moderado', color: '#48bb78' },
+			{ zone: 'Z3', label: 'Aeróbico', color: '#ed8936' },
+			{ zone: 'Z4', label: 'Intenso', color: '#f56565' },
+			{ zone: 'Z5', label: 'Máximo', color: '#c53030' },
 		];
 
-		return zones.map((z) => ({
-			...z,
-			count: pulseirasData.filter((d) => d.heartRate >= z.min && d.heartRate < z.max).length,
-		}));
+		return zoneLabels.map((zoneLabel) => {
+			let count = 0;
+			pulseirasData.forEach((d) => {
+				const userZones = d.user?.zones;
+				if (userZones) {
+					const zoneKey = zoneLabel.zone.toLowerCase() as keyof typeof userZones;
+					const zone = userZones[zoneKey];
+					if (d.heartRate >= zone.min && d.heartRate <= zone.max) {
+						count++;
+					}
+				}
+			});
+			return {
+				...zoneLabel,
+				range: '',
+				count,
+			};
+		});
 	}, [isActive, resultData, pulseirasData]);
 
 	if (isLoading) {

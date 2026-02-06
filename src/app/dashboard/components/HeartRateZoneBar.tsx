@@ -4,6 +4,13 @@ import { ZoneBarContainer, ZoneSegment, ZoneLabel, ZoneLabelContainer } from './
 interface HeartRateZoneBarProps {
 	heartRate: number;
 	maxHeartRate?: number;
+	userZones?: {
+		zone1: { min: number; max: number };
+		zone2: { min: number; max: number };
+		zone3: { min: number; max: number };
+		zone4: { min: number; max: number };
+		zone5: { min: number; max: number };
+	};
 	zonePoints?: {
 		zone1: number;
 		zone2: number;
@@ -21,12 +28,19 @@ const ZONES = [
 	{ min: 170, max: 220, label: 'Z5', color: '#c53030', colorName: 'Vermelho Escuro' },
 ];
 
-const getCurrentZone = (hr: number): number => {
+const getCurrentZone = (hr: number, userZones?: HeartRateZoneBarProps['userZones']): number => {
+	if (userZones) {
+		if (hr >= userZones.zone1.min && hr <= userZones.zone1.max) return 0;
+		if (hr >= userZones.zone2.min && hr <= userZones.zone2.max) return 1;
+		if (hr >= userZones.zone3.min && hr <= userZones.zone3.max) return 2;
+		if (hr >= userZones.zone4.min && hr <= userZones.zone4.max) return 3;
+		if (hr >= userZones.zone5.min && hr <= userZones.zone5.max) return 4;
+	}
 	return ZONES.findIndex((zone) => hr >= zone.min && hr < zone.max);
 };
 
-export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, maxHeartRate = 220, zonePoints }) => {
-	const currentZoneIndex = getCurrentZone(heartRate);
+export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, maxHeartRate = 220, userZones, zonePoints }) => {
+	const currentZoneIndex = getCurrentZone(heartRate, userZones);
 	const percentage = Math.min((heartRate / maxHeartRate) * 100, 100);
 
 	const zoneValues = zonePoints ? [zonePoints.zone1, zonePoints.zone2, zonePoints.zone3, zonePoints.zone4, zonePoints.zone5] : null;

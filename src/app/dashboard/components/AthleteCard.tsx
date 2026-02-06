@@ -27,12 +27,28 @@ interface AthleteCardProps {
 	};
 }
 
-const getZoneColor = (hr: number): string => {
-	if (hr < 100) return '#4299e1'; // Z1
-	if (hr < 120) return '#48bb78'; // Z2
-	if (hr < 140) return '#ed8936'; // Z3
-	if (hr < 170) return '#f56565'; // Z4
-	return '#c53030'; // Z5
+const getZoneColor = (
+	hr: number,
+	userZones?: {
+		zone1: { min: number; max: number };
+		zone2: { min: number; max: number };
+		zone3: { min: number; max: number };
+		zone4: { min: number; max: number };
+		zone5: { min: number; max: number };
+	},
+): string => {
+	if (userZones) {
+		if (hr >= userZones.zone1.min && hr <= userZones.zone1.max) return '#4299e1';
+		if (hr >= userZones.zone2.min && hr <= userZones.zone2.max) return '#48bb78';
+		if (hr >= userZones.zone3.min && hr <= userZones.zone3.max) return '#ed8936';
+		if (hr >= userZones.zone4.min && hr <= userZones.zone4.max) return '#f56565';
+		if (hr >= userZones.zone5.min && hr <= userZones.zone5.max) return '#c53030';
+	}
+	if (hr < 100) return '#4299e1';
+	if (hr < 120) return '#48bb78';
+	if (hr < 140) return '#ed8936';
+	if (hr < 170) return '#f56565';
+	return '#c53030';
 };
 
 const getPercentage = (hr: number): number => {
@@ -41,7 +57,7 @@ const getPercentage = (hr: number): number => {
 };
 
 export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName, isPoints = false, zonePoints }) => {
-	const zoneColor = getZoneColor(data.heartRate);
+	const zoneColor = getZoneColor(data.heartRate, data.user?.zones);
 	const percentage = getPercentage(data.heartRate);
 	const initials = athleteName
 		.split(' ')
@@ -69,6 +85,7 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName, isP
 				</HeartRateCircle>
 				<HeartRateZoneBar
 					heartRate={data.heartRate}
+					userZones={data.user?.zones}
 					zonePoints={zonePoints}
 				/>
 			</HeartRateDisplay>
