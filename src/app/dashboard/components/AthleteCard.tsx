@@ -41,19 +41,29 @@ const getZoneColor = (
 		if (hr >= userZones.zone1.min && hr <= userZones.zone1.max) return '#4299e1';
 		if (hr >= userZones.zone2.min && hr <= userZones.zone2.max) return '#48bb78';
 		if (hr >= userZones.zone3.min && hr <= userZones.zone3.max) return '#ed8936';
-		if (hr >= userZones.zone4.min && hr <= userZones.zone4.max) return '#f56565';
+		if (hr >= userZones.zone4.min && hr <= userZones.zone4.max) return '#aa36ed';
 		if (hr >= userZones.zone5.min && hr <= userZones.zone5.max) return '#c53030';
 	}
 	if (hr < 100) return '#4299e1';
 	if (hr < 120) return '#48bb78';
 	if (hr < 140) return '#ed8936';
-	if (hr < 170) return '#f56565';
+	if (hr < 170) return '#aa36ed';
 	return '#c53030';
 };
 
 const getPercentage = (hr: number): number => {
 	const maxHr = 220;
 	return Math.min(Math.round((hr / maxHr) * 100), 100);
+};
+
+const getAge = (birthDate: Date): number => {
+	const today = new Date();
+	let age = today.getFullYear() - birthDate.getFullYear();
+	const monthDiff = today.getMonth() - birthDate.getMonth();
+	if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+		age--;
+	}
+	return age;
 };
 
 export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName, isPoints = false, zonePoints }) => {
@@ -70,7 +80,10 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({ data, athleteName, isP
 			<CardHeader>
 				<Avatar>{initials}</Avatar>
 				<AthleteInfo>
-					<AthleteName>{athleteName}</AthleteName>
+					<AthleteName>
+						{athleteName}
+						{data.user?.birthDate && ` (${getAge(new Date(data.user.birthDate))} anos)`}
+					</AthleteName>
 				</AthleteInfo>
 			</CardHeader>
 

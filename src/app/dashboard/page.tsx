@@ -58,7 +58,7 @@ export default function DashboardPage() {
 					zone: 'Z4',
 					label: 'Intenso',
 					range: '',
-					color: '#f56565',
+					color: '#aa36ed',
 					count: resultData.deviceResults.reduce((sum, d) => sum + d.zones.zone4, 0),
 				},
 				{
@@ -75,7 +75,7 @@ export default function DashboardPage() {
 			{ zone: 'Z1', label: 'Leve', color: '#4299e1' },
 			{ zone: 'Z2', label: 'Moderado', color: '#48bb78' },
 			{ zone: 'Z3', label: 'Aeróbico', color: '#ed8936' },
-			{ zone: 'Z4', label: 'Intenso', color: '#f56565' },
+			{ zone: 'Z4', label: 'Intenso', color: '#aa36ed' },
 			{ zone: 'Z5', label: 'Máximo', color: '#c53030' },
 		];
 
@@ -86,7 +86,7 @@ export default function DashboardPage() {
 				if (userZones) {
 					const zoneKey = zoneLabel.zone.toLowerCase() as keyof typeof userZones;
 					const zone = userZones[zoneKey];
-					if (d.heartRate >= zone.min && d.heartRate <= zone.max) {
+					if (zone && d.heartRate >= zone.min && d.heartRate <= zone.max) {
 						count++;
 					}
 				}

@@ -221,7 +221,7 @@ export default function RegisterPage() {
 						<ErrorMessage style={{ marginBottom: '20px' }}>Erro ao registrar: {error?.message || 'Tente novamente'}</ErrorMessage>
 					)}
 
-					{isSuccess && <SuccessMessage style={{ marginBottom: '20px' }}>Registro realizado com sucesso! Redirecionando...</SuccessMessage>}
+					{isSuccess && <SuccessMessage style={{ marginBottom: '20px' }}>Registro realizado com sucesso!</SuccessMessage>}
 
 					{/* Buttons */}
 					<ButtonContainer>

@@ -24,7 +24,7 @@ const ZONES = [
 	{ min: 0, max: 100, label: 'Z1', color: '#4299e1', colorName: 'Azul' },
 	{ min: 100, max: 120, label: 'Z2', color: '#48bb78', colorName: 'Verde' },
 	{ min: 120, max: 140, label: 'Z3', color: '#ed8936', colorName: 'Laranja' },
-	{ min: 140, max: 170, label: 'Z4', color: '#f56565', colorName: 'Vermelho' },
+	{ min: 140, max: 170, label: 'Z4', color: '#aa36ed', colorName: 'Vermelho' },
 	{ min: 170, max: 220, label: 'Z5', color: '#c53030', colorName: 'Vermelho Escuro' },
 ];
 
@@ -59,12 +59,16 @@ export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, m
 			</ZoneBarContainer>
 
 			<ZoneLabelContainer>
-				{ZONES.map((zone, index) => (
-					<ZoneLabel key={zone.label}>
-						{zone.label}
-						{zoneValues && ` (${zoneValues[index]})`}
-					</ZoneLabel>
-				))}
+				{ZONES.map((zone, index) => {
+					const zoneKey = `zone${index + 1}` as keyof typeof userZones;
+					const minValue = userZones?.[zoneKey]?.min;
+					return (
+						<ZoneLabel key={zone.label}>
+							{minValue !== undefined && ` ${minValue}`}
+							{zoneValues && ` [${zoneValues[index]}]`}
+						</ZoneLabel>
+					);
+				})}
 			</ZoneLabelContainer>
 		</div>
 	);
