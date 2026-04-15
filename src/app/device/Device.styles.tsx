@@ -395,3 +395,23 @@ export const CloseButton = styled.button`
 		color: #fff;
 	}
 `;
+
+export const UserSectionDivider = styled.div`
+	grid-column: 1 / -1;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	padding-top: 20px;
+	margin-top: 8px;
+`;
+
+export const UserSectionLabel = styled.strong`
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 12px;
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 8px;
+`;
+
+export const EmptyStateHint = styled.p`
+	font-size: 12px;
+	margin-top: 8px;
+`;

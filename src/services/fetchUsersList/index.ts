@@ -1,10 +1,6 @@
-export interface User {
-	id: string;
-	name: string;
-	email: string;
-	cpf?: string;
-	phone?: string;
-}
+import { User } from '@/types/user';
+
+export type { User };
 
 export const fetchUsersList = async (): Promise<User[]> => {
 	try {

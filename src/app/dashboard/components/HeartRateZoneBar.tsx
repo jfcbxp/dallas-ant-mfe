@@ -60,7 +60,7 @@ export const HeartRateZoneBar: React.FC<HeartRateZoneBarProps> = ({ heartRate, m
 
 			<ZoneLabelContainer>
 				{ZONES.map((zone, index) => {
-					const zoneKey = `zone${index + 1}` as keyof typeof userZones;
+					const zoneKey = `zone${index + 1}` as keyof NonNullable<typeof userZones>;
 					const minValue = userZones?.[zoneKey]?.min;
 					return (
 						<ZoneLabel key={zone.label}>

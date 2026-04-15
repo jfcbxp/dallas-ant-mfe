@@ -23,7 +23,7 @@ import {
 	ErrorMessage,
 	SuccessMessage,
 	LoadingSpinner,
-} from './styles';
+} from './Register.styles';
 
 interface FormData {
 	name: string;
@@ -218,10 +218,10 @@ export default function RegisterPage() {
 
 					{/* Messages */}
 					{isError && (
-						<ErrorMessage style={{ marginBottom: '20px' }}>Erro ao registrar: {error?.message || 'Tente novamente'}</ErrorMessage>
+						<ErrorMessage $marginBottom="20px">Erro ao registrar: {error?.message || 'Tente novamente'}</ErrorMessage>
 					)}
 
-					{isSuccess && <SuccessMessage style={{ marginBottom: '20px' }}>Registro realizado com sucesso!</SuccessMessage>}
+					{isSuccess && <SuccessMessage $marginBottom="20px">Registro realizado com sucesso!</SuccessMessage>}
 
 					{/* Buttons */}
 					<ButtonContainer>

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { Device, fetchAvailableDevices } from '@/services/fetchAvailableDevices';
+import { Device } from '@/types/device';
+import { fetchAvailableDevices } from '@/services/fetchAvailableDevices';
 
 export const useAvailableDevices = () => {
 	return useQuery<Device[], Error>({

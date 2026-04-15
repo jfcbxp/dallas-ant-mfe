@@ -139,3 +139,9 @@ export const AverageValue = styled.div`
 	font-size: 28px;
 	font-weight: bold;
 `;
+
+export const LoadingMessage = styled.div`
+	color: #fff;
+	text-align: center;
+	padding-top: 50px;
+`;

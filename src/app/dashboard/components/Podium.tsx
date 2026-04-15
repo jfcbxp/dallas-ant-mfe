@@ -15,6 +15,7 @@ import {
 	PlayerPoints,
 	PointsLabel,
 	PodiumBase,
+	EmptyResultMessage,
 } from './Podium.styles';
 
 interface PodiumProps {
@@ -33,7 +34,7 @@ export const Podium: React.FC<PodiumProps> = ({ deviceResults }) => {
 					<MainTitle>SESSÃO CONCLUÍDA</MainTitle>
 					<SubTitle>HALL DA FAMA</SubTitle>
 				</PodiumTitle>
-				<div style={{ color: '#fff', fontSize: '18px' }}>Nenhum resultado disponível</div>
+				<EmptyResultMessage>Nenhum resultado disponível</EmptyResultMessage>
 			</PodiumContainer>
 		);
 	}

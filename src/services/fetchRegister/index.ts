@@ -1,17 +1,6 @@
-export interface RegisterData {
-	name: string;
-	height: number;
-	weight: number;
-	birthDate: string;
-	gender: string;
-}
+import { RegisterData, RegisterResponse } from '@/types/user';
 
-export interface RegisterResponse {
-	id: string;
-	name: string;
-	email: string;
-	message?: string;
-}
+export type { RegisterData, RegisterResponse };
 
 export const fetchRegister = async (data: RegisterData): Promise<RegisterResponse> => {
 	try {

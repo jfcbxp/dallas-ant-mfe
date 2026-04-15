@@ -234,3 +234,8 @@ export const ConfettiContainer = styled.div`
 	pointer-events: none;
 	overflow: hidden;
 `;
+
+export const EmptyResultMessage = styled.div`
+	color: #fff;
+	font-size: 18px;
+`;

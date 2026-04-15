@@ -18,7 +18,8 @@ export const fetchPulseiras = async (): Promise<HeartRateData[]> => {
 
 		const data = await response.json();
 		return data;
-	} catch (error: any) {
-		console.warn('API indisponível, usando mock:', error.message);
+	} catch (error: unknown) {
+		console.warn('API indisponível, usando mock:', (error as Error).message);
+		return [];
 	}
 };

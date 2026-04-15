@@ -228,7 +228,7 @@ export const CancelButton = styled.button`
 	}
 `;
 
-export const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div<{ $marginBottom?: string }>`
 	color: #f56565;
 	font-size: 12px;
 	margin-top: 6px;
@@ -236,9 +236,10 @@ export const ErrorMessage = styled.div`
 	background: rgba(245, 101, 101, 0.1);
 	border-left: 2px solid #f56565;
 	border-radius: 4px;
+	${({ $marginBottom }) => $marginBottom && `margin-bottom: ${$marginBottom};`}
 `;
 
-export const SuccessMessage = styled.div`
+export const SuccessMessage = styled.div<{ $marginBottom?: string }>`
 	color: #48bb78;
 	font-size: 12px;
 	margin-top: 6px;
@@ -246,6 +247,7 @@ export const SuccessMessage = styled.div`
 	background: rgba(72, 187, 120, 0.1);
 	border-left: 2px solid #48bb78;
 	border-radius: 4px;
+	${({ $marginBottom }) => $marginBottom && `margin-bottom: ${$marginBottom};`}
 `;
 
 export const LoadingSpinner = styled.div`

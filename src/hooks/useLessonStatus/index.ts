@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { LessonStatus, fetchLessonStatus } from '@/services/fetchLessonStatus';
+import { LessonStatus } from '@/types/lesson';
+import { fetchLessonStatus } from '@/services/fetchLessonStatus';
 
 export const useLessonStatus = () => {
 	return useQuery<LessonStatus, Error>({

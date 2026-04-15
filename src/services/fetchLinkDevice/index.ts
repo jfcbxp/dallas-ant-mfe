@@ -1,9 +1,6 @@
-export interface LinkDeviceResponse {
-	success: boolean;
-	message?: string;
-	deviceId?: number;
-	userId?: string;
-}
+import { LinkDeviceResponse } from '@/types/user';
+
+export type { LinkDeviceResponse };
 
 export const fetchLinkDevice = async (deviceId: number, userId: string): Promise<LinkDeviceResponse> => {
 	try {

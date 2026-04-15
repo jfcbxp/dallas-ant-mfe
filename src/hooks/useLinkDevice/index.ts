@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchLinkDevice, LinkDeviceResponse } from '@/services/fetchLinkDevice';
+import { LinkDeviceResponse } from '@/types/user';
+import { fetchLinkDevice } from '@/services/fetchLinkDevice';
 
 interface LinkDeviceVariables {
 	deviceId: number;
