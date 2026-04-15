@@ -217,11 +217,9 @@ export default function RegisterPage() {
 					</FormSection>
 
 					{/* Messages */}
-					{isError && (
-						<ErrorMessage $marginBottom="20px">Erro ao registrar: {error?.message || 'Tente novamente'}</ErrorMessage>
-					)}
+					{isError && <ErrorMessage $marginBottom='20px'>Erro ao registrar: {error?.message || 'Tente novamente'}</ErrorMessage>}
 
-					{isSuccess && <SuccessMessage $marginBottom="20px">Registro realizado com sucesso!</SuccessMessage>}
+					{isSuccess && <SuccessMessage $marginBottom='20px'>Registro realizado com sucesso!</SuccessMessage>}
 
 					{/* Buttons */}
 					<ButtonContainer>

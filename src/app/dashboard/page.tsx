@@ -43,7 +43,10 @@ export default function DashboardPage() {
 	return (
 		<DashboardContainer>
 			<Header>
-				<Image alt='logo' src={logo} />
+				<Image
+					alt='logo'
+					src={logo}
+				/>
 			</Header>
 
 			{isActive ? (
@@ -63,9 +66,13 @@ export default function DashboardPage() {
 
 			<StatsBar>
 				{zoneStats.map((stat) => (
-					<StatItem key={stat.zone} $color={stat.color}>
+					<StatItem
+						key={stat.zone}
+						$color={stat.color}>
 						<div>
-							<StatLabel>{stat.zone} {stat.label}</StatLabel>
+							<StatLabel>
+								{stat.zone} {stat.label}
+							</StatLabel>
 							<StatValue>★ {stat.count}</StatValue>
 							{stat.range && <StatRange>{stat.range}</StatRange>}
 						</div>

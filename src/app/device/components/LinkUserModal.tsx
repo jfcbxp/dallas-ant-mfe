@@ -72,7 +72,9 @@ export function LinkUserModal({
 						onChange={(e) => onUserSelect(e.target.value)}>
 						<option value=''>-- Selecione um usuário --</option>
 						{users.map((user) => (
-							<option key={user.id} value={user.id}>
+							<option
+								key={user.id}
+								value={user.id}>
 								{user.name}
 							</option>
 						))}
@@ -82,7 +84,9 @@ export function LinkUserModal({
 				</FormGroup>
 
 				<FormGroup>
-					<LinkButton onClick={onLink} disabled={!canLinkDevice || isLinking}>
+					<LinkButton
+						onClick={onLink}
+						disabled={!canLinkDevice || isLinking}>
 						{isLinking ? 'Vinculando...' : 'Vincular Dispositivo'}
 					</LinkButton>
 
